@@ -38,6 +38,7 @@ var Modal = (function () {
                 draggable: false,
                 closeAfter: 0,
                 openCallback: false,
+                beforeCloseCallback: false,
                 closeCallback: false,
                 hideOverlay: false
             };
@@ -50,6 +51,7 @@ var Modal = (function () {
             settings.hideClose = parameters.hideClose || defaultSettings.hideClose;
             settings.draggable = parameters.draggable || defaultSettings.draggable;
             settings.closeAfter = parameters.closeAfter || defaultSettings.closeAfter;
+            settings.beforeCloseCallback = parameters.beforeCloseCallback || defaultSettings.beforeCloseCallback;
             settings.closeCallback = parameters.closeCallback || defaultSettings.closeCallback;
             settings.openCallback = parameters.openCallback || defaultSettings.openCallback;
             settings.hideOverlay = parameters.hideOverlay || defaultSettings.hideOverlay;
@@ -200,6 +202,10 @@ var Modal = (function () {
 
         // Close the modal
         method.close = function () {
+            if (settings.beforeCloseCallback) {
+                settings.beforeCloseCallback();
+            }
+
             modalContent.innerHTML = '';
             modalOverlay.setAttribute('style', '');
             modalOverlay.style.cssText = '';
